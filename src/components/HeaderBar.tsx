@@ -1,9 +1,9 @@
-import { FaBars } from "react-icons/fa";
-import userImg from "@/assets/user.png";
-import { useStore } from "@/store/useStore";
+import { FaBars } from "react-icons/fa"
+import userImg from "@/assets/user.png"
+import { useGlobalStore } from "@/store/useGlobalStore"
 
 export default function HeaderBar() {
-  const toggleSidebar = useStore((state) => state.toggle);
+  const toggleSidebar = useGlobalStore((state) => state.toggle)
 
   return (
     <header className="bg-white flex items-center px-6 h-12 border-b border-foreground/10">
@@ -21,5 +21,5 @@ export default function HeaderBar() {
         className="h-8 w-8 rounded-xl object-cover"
       />
     </header>
-  );
+  )
 }

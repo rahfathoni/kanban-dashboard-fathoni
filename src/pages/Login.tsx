@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import imgLogin from "@/assets/kanban-login.jpg"
 import { UiButton, UiInput } from "@/components/ui/index"
+import { useUserStore } from "@/store/useUserStore"
 
 export default function Login() {
   const navigate = useNavigate()
+  const login = useUserStore((state) => state.login)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -14,7 +16,19 @@ export default function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    navigate("/")
+    try {
+      const success = await login(username);
+      setLoading(false)
+      if (success) {
+        navigate("/")
+      } else {
+        alert("Username atau password salah")
+      }
+    } catch (err) {
+      console.error(err)
+      alert("Username atau password salah")
+      setLoading(false)
+    }
   }
 
   return (

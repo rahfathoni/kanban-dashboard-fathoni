@@ -4,16 +4,19 @@ import { RiLogoutCircleRLine } from "react-icons/ri"
 import clsx from "clsx"
 import { menuItems } from "@/constants/menuItems"
 import logo from "@/assets/logo.png"
-import { useStore } from "@/store/useStore"
+import { useGlobalStore } from "@/store/useGlobalStore"
+import { useUserStore } from "@/store/useUserStore"
 
 export default function Sidebar() {
   const navigate = useNavigate()
   const location = useLocation()
-  const open = useStore((state) => state.open)
-  const setOpen = useStore((state) => state.setOpen)
+  const open = useGlobalStore((state) => state.open)
+  const setOpen = useGlobalStore((state) => state.setOpen)
+  const logout = useUserStore((state) => state.logout)
 
   const handleLogout = () => {
     setOpen(false)
+    logout()
     navigate("/login")
   };
 
