@@ -1,24 +1,68 @@
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { FaEye, FaEyeSlash } from "react-icons/fa"
+import imgLogin from "@/assets/kanban-login.jpg"
+import { UiButton, UiInput } from "@/components/ui/index"
+
 export default function Login() {
+  const navigate = useNavigate()
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+    navigate("/")
+  }
+
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="p-8 bg-white shadow-md rounded-md w-80">
-        <h1 className="text-2xl font-bold mb-4">Login</h1>
-        <form className="flex flex-col gap-4">
-          <input
-            type="text"
-            placeholder="Username"
-            className="border px-3 py-2 rounded"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="border px-3 py-2 rounded"
-          />
-          <button className="bg-blue-500 text-white py-2 rounded">
-            Login
-          </button>
-        </form>
+    <div className="flex h-screen bg-white">
+      <div className="hidden sm:block md:block lg:block w-1/2">
+        <img
+          src={imgLogin}
+          alt="Login Illustration"
+          className="object-cover w-full h-full"
+        />
+      </div>
+
+      <div className="w-full sm:w-4/5 md:w-2/3 lg:w-1/2 flex items-center justify-center">
+        <div className="max-w-sm w-full px-6 md:px-8">
+          <h1 className="text-3xl font-bold mb-16">Login</h1>
+          <form className="flex flex-col gap-8" onSubmit={handleLogin}>
+            <UiInput
+              placeholder="Username"
+              type="text"
+              value={username}
+              required
+              onChange={e => setUsername(e.target.value)}
+            />
+            <div className="relative">
+              <UiInput
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="pr-10"
+                value={password}
+                required
+                onChange={e => setPassword(e.target.value)}
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+            <div className="mt-7">
+              <UiButton type="submit" loading={loading}>
+                Login
+              </UiButton>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  );
+  )
 }

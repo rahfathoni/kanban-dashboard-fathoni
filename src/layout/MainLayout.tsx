@@ -1,10 +1,14 @@
-import Sidebar from "../components/ui/Sidebar";
+import Sidebar from "@/components/Sidebar"
+import HeaderBar from "@/components/HeaderBar"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex">
       <Sidebar />
-      <main className="flex-1 p-6 bg-gray-100 min-h-screen">{children}</main>
+      <div className="flex flex-col w-screen">
+        <HeaderBar />
+        <main className="flex-1 py-8 px-6 sm:px-10 md:px-25 lg:px-40 bg-background min-h-screen">{children}</main>
+      </div>
     </div>
   );
 }
