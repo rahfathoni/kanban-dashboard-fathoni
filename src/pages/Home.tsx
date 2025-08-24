@@ -48,7 +48,7 @@ export default function Home() {
         </UiButton>
       </section>
 
-      <section className="flex gap-8">
+      <section className="flex gap-8 overflow-x-auto pb-4 min-w-96">
         {isLoading ? (
           <div className="p-8 text-center flex-1">
             <UiLoading text="Loading Task..." />
