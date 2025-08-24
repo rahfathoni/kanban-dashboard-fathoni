@@ -7,13 +7,8 @@ const API = axios.create({
 
 export const getUsers = async () => {
   try {
-    const res = await API.get('/users')
-    return res.data.map((user: IUser) => ({
-      id: user.id,
-      username: user.username,
-      password: user.password,
-      name: user.name
-    }))
+    const res = await API.get<IUser[]>('/users');
+    return res.data;
   } catch (err) {
     console.error('Failed to fetch users:', err)
     return []

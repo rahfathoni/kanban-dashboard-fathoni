@@ -22,7 +22,7 @@ export default function UiButton({
 }: UiButtonProps) {
   const baseStyle = clsx(
     "py-2 rounded-md font-semibold w-full transition flex items-center justify-center gap-2", 
-    "disabled:opacity-50 disabled:cursor-not-allowed"
+    "disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
   )
   const variants = {
     primary: "bg-primary hover:bg-blue-600 text-white"
@@ -37,7 +37,7 @@ export default function UiButton({
     >
       {loading && (
         <span
-          className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+          className="h-4 w-4 border-2 border-white border-t-transparent rounded-lg animate-spin"
           aria-hidden="true"
         />
       )}

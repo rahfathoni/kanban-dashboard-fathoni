@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Navigate, useLocation } from "react-router-dom"
 import { getUsers } from "@/api/users"
 import type { IUser } from "@/types/user"
+import { UiLoading } from "@/components/ui/index"
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const location = useLocation()
@@ -41,7 +42,13 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     checkUser()
   }, [])
 
-  if (loading) return <div>Loading...</div>
+  if (loading) {
+    return (
+      <main className="flex justify-center items-center h-screen bg-background">
+        <UiLoading text="Loading..." className="!text-3xl !font-bold" />
+      </main>
+    )
+  }
 
   return isAllowed ? <>{children}</> : <Navigate to="/login" state={{ from: location }} replace />
 }

@@ -70,7 +70,11 @@ export default function Login() {
               </button>
             </div>
             <div className="mt-7">
-              <UiButton type="submit" loading={loading}>
+              <UiButton 
+                className="!text-2xl !font-semibold"
+                type="submit" 
+                loading={loading}
+              >
                 Login
               </UiButton>
             </div>

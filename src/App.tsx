@@ -3,6 +3,7 @@ import MainLayout from "./layout/MainLayout";
 
 import Login from "./pages/Login";
 import Home from "./pages/Home";
+import TaskDetail from "./pages/TaskDetail";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -19,6 +20,7 @@ function App() {
               <MainLayout>
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/tasks/:id" element={<TaskDetail />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </MainLayout>

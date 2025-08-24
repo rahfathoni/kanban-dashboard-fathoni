@@ -5,6 +5,7 @@
   --foreground: #1D2939;
   --primary: #4186F4;
   --secondary: #667085;
+  --danger: #fb2c36;
 }
 
 @theme inline {
@@ -12,14 +13,15 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
+  --color-danger: var(--danger);
   --font-sans: Arial, Helvetica, sans-serif;
+  --shadow-custom-sm: 0px 0.5px 2px 0px #1018284D;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    --csm-blue: #4186F4;
   }
 }
 
