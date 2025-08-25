@@ -7,7 +7,7 @@ type UiButtonProps = {
   type?: "button" | "submit" | "reset"
   disabled?: boolean
   loading?: boolean
-  variant?: "primary"
+  variant?: "primary" | "outlineBlack" | "ghostDanger"
   onClick?: () => void
 }
 
@@ -22,10 +22,17 @@ export default function UiButton({
 }: UiButtonProps) {
   const baseStyle = clsx(
     "py-2 rounded-md font-semibold w-full transition flex items-center justify-center gap-2", 
-    "disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+    "text-sm font-medium",
+    {
+      "cursor-not-allowed opacity-50": disabled || loading,
+      "cursor-pointer opacity-100": !disabled && !loading,
+    }
   )
+
   const variants = {
-    primary: "bg-primary hover:bg-blue-600 text-white"
+    primary: "bg-primary hover:bg-blue-600 text-white",
+    outlineBlack: "border border-black text-black bg-white hover:bg-gray-100",
+    ghostDanger: "bg-transparent text-red-500 hover:text-red-600"
   }
   
   return (
@@ -37,7 +44,7 @@ export default function UiButton({
     >
       {loading && (
         <span
-          className="h-4 w-4 border-2 border-white border-t-transparent rounded-lg animate-spin"
+          className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin"
           aria-hidden="true"
         />
       )}

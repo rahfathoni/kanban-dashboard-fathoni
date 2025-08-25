@@ -6,7 +6,7 @@ export default function HeaderBar() {
   const toggleSidebar = useGlobalStore((state) => state.toggle)
 
   return (
-    <header className="bg-white flex items-center px-6 h-12 border-b border-foreground/10">
+    <header className="bg-white flex items-center px-6 h-12 border-b border-foreground/10 sticky top-0 md:static">
       <button 
         className="p-2 bg-white text-secondary rounded md:hidden"
         onClick={toggleSidebar}

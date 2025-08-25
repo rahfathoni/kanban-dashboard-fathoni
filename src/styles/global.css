@@ -6,6 +6,7 @@
   --primary: #4186F4;
   --secondary: #667085;
   --danger: #fb2c36;
+  --gray-soft: #DEE2E6;
 }
 
 @theme inline {
@@ -14,6 +15,7 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-danger: var(--danger);
+  --color-gray-soft: var(--gray-soft);
   --font-sans: Arial, Helvetica, sans-serif;
   --shadow-custom-sm: 0px 0.5px 2px 0px #1018284D;
 }
