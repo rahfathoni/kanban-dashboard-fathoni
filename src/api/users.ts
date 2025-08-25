@@ -15,9 +15,9 @@ export const getUsers = async () => {
   }
 }
 
-export const createUser = async (data: { username: string; password: string; name: string }) => {
+export const createUser = async (user: Omit<IUser, "id" | "password">) => {
   try {
-    const res = await API.post('/users', data)
+    const res = await API.post('/users', user)
     return res.data
   } catch (err) {
     console.error('Failed to create user:', err)

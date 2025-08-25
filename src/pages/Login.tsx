@@ -1,9 +1,12 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
 import imgLogin from "@/assets/kanban-login.jpg"
 import { UiButton, UiInput } from "@/components/ui/index"
 import { useUserStore } from "@/store/useUserStore"
+import { useGlobalStore } from "@/store/useGlobalStore"
+import RegisterModal from "@/components/login/RegisterModal"
+import clsx from "clsx"
 
 export default function Login() {
   const navigate = useNavigate()
@@ -12,24 +15,41 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
+  const addToast = useGlobalStore((state) => state.addToast)
+  const [isModalRegisterOpen, setIsModalRegisterOpen] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    setSubmitted(true)
+    if (!username || !password) return
+
     setLoading(true)
     try {
       const success = await login(username);
       setLoading(false)
       if (success) {
         navigate("/")
+        addToast({ message: "Login Success, Welcome !", type: "success" })
       } else {
-        alert("Username atau password salah")
+        addToast({ message: "Wrong Username or password", type: "error" })
       }
     } catch (err) {
       console.error(err)
-      alert("Username atau password salah")
+      addToast({ message: "Wrong Username or password", type: "error" })
       setLoading(false)
     }
   }
+
+  const handleRegister = () => {
+    setIsModalRegisterOpen(true)
+  }
+
+  useEffect(() => {
+    setSubmitted(false)
+    setLoading(false)
+  }, [])
+  
 
   return (
     <div className="flex h-screen bg-white">
@@ -49,7 +69,8 @@ export default function Login() {
               placeholder="Username"
               type="text"
               value={username}
-              required
+              disabled={loading}
+              error={submitted && !username ? "Username is required" : undefined}
               onChange={e => setUsername(e.target.value)}
             />
             <div className="relative">
@@ -58,7 +79,8 @@ export default function Login() {
                 placeholder="Password"
                 className="pr-10"
                 value={password}
-                required
+                disabled={loading}
+                error={submitted && !password ? "Password is required" : undefined}
                 onChange={e => setPassword(e.target.value)}
               />
               <button
@@ -79,8 +101,27 @@ export default function Login() {
               </UiButton>
             </div>
           </form>
+          <div className="flex items-center justify-end mt-3">
+            <p className="text-md text-primary">
+              Don't have an account?{" "}
+              <span
+                className={clsx(
+                  "font-bold hover:underline",
+                  loading ? "cursor-not-allowed" : "cursor-pointer"
+                )}
+                onClick={loading ? undefined : handleRegister}
+              >
+                Sign up
+              </span>
+            </p>
+          </div>
         </div>
       </div>
+
+      <RegisterModal 
+        isOpen={isModalRegisterOpen}
+        onClose={() => setIsModalRegisterOpen(false)}
+      />
     </div>
   )
 }

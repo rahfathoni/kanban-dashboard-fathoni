@@ -1,15 +1,17 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainLayout from "./layout/MainLayout";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import MainLayout from "./layout/MainLayout"
+import ToastUniversal from "@/components/ToastUniversal"
 
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import TaskDetail from "./pages/TaskDetail";
-import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/Login"
+import Home from "./pages/Home"
+import TaskDetail from "./pages/TaskDetail"
+import NotFound from "./pages/NotFound"
+import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
   return (
     <Router>
+      <ToastUniversal />
       <Routes>
         <Route path="/login" element={<Login />} />
 
@@ -29,7 +31,7 @@ function App() {
         />
       </Routes>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

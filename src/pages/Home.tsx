@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useUserStore } from "@/store/useUserStore"
 import { UiButton, UiLoading } from "@/components/ui/index"
 import TaskAddModal from "@/components/task/TaskAddModal"
@@ -8,6 +8,7 @@ import TaskColumn from "@/components/task/TaskColumn"
 import { statusItems } from "@/constants/options"
 import { getTasks, addTask } from "@/api/tasks"
 import { fakeDelay, nowDate } from "@/utils/index"
+import { useGlobalStore } from "@/store/useGlobalStore"
 import type { ITask } from "@/types/task"
 
 export default function Home() {
@@ -17,8 +18,9 @@ export default function Home() {
   const [isLoadingModal, setIsLoadingModal] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isModalAddOpen, setIsModalAddOpen] = useState(false)
+  const addToast = useGlobalStore((state) => state.addToast)
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     setIsLoading(true)
     try {
       await fakeDelay()
@@ -27,12 +29,13 @@ export default function Home() {
     } catch (err) {
       console.error('Failed to fetch tasks:', err)
       setError("Failed to fetch tasks")
+      addToast({ message: "Failed to fetch tasks", type: "error" })
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [addToast])
 
-const submitNewTask = async (
+  const submitNewTask = async (
     val: Omit<ITask, "id" | "createdAt" | "updatedAt">
   ) => {
     setIsLoadingModal(true)
@@ -45,11 +48,12 @@ const submitNewTask = async (
       }
 
       await addTask(newTask)
+      addToast({ message: "Create new task success!", type: "success" })
       setIsModalAddOpen(false)
       fetchTasks()
     } catch (err) {
       console.error("Failed to add task:", err)
-      setError("Failed to add task")
+      addToast({ message: "Failed to add tasks", type: "error" })
     } finally {
       setIsLoadingModal(false)
     }
@@ -58,7 +62,7 @@ const submitNewTask = async (
   useEffect(() => {
     window.scrollTo(0, 0)
     fetchTasks()
-  }, [])
+  }, [fetchTasks])
 
   const handleAddTask = () => {
     setIsLoadingModal(false)
@@ -103,12 +107,12 @@ const submitNewTask = async (
         )}
       </section>
 
-      <TaskAddModal
-        isOpen={isModalAddOpen}
-        isLoading={isLoadingModal}
-        onClose={() => setIsModalAddOpen(false)}
-        onSubmit={input => submitNewTask(input)}
-      />
+        <TaskAddModal
+          isOpen={isModalAddOpen}
+          isLoading={isLoadingModal}
+          onClose={() => setIsModalAddOpen(false)}
+          onSubmit={input => submitNewTask(input)}
+        />
     </main>
   )
 }

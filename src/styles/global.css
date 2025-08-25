@@ -5,6 +5,7 @@
   --foreground: #1D2939;
   --primary: #4186F4;
   --secondary: #667085;
+  --success: #2CBA7A;
   --danger: #fb2c36;
   --gray-soft: #DEE2E6;
 }
@@ -14,10 +15,12 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
+  --color-success: var(--success);
   --color-danger: var(--danger);
   --color-gray-soft: var(--gray-soft);
   --font-sans: Arial, Helvetica, sans-serif;
   --shadow-custom-sm: 0px 0.5px 2px 0px #1018284D;
+  --shadow-toast: 0px 5px 5px -3px #0000000F, 0px 3px 14px 2px #00000012, 0px 8px 10px 1px #00000008;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -31,4 +34,34 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
+
+.animate-slide-out {
+  animation: slide-out 0.3s ease-in forwards;
 }
