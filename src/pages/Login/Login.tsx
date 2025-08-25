@@ -5,7 +5,7 @@ import imgLogin from "@/assets/kanban-login.jpg"
 import { UiButton, UiInput } from "@/components/ui/index"
 import { useUserStore } from "@/store/useUserStore"
 import { useGlobalStore } from "@/store/useGlobalStore"
-import RegisterModal from "@/components/login/RegisterModal"
+import RegisterModal from "@/pages/Login/components/RegisterModal"
 import clsx from "clsx"
 
 export default function Login() {

@@ -2,9 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import MainLayout from "./layout/MainLayout"
 import ToastUniversal from "@/components/ToastUniversal"
 
-import Login from "./pages/Login"
-import Home from "./pages/Home"
-import TaskDetail from "./pages/TaskDetail"
+import Login from "./pages/Login/Login"
+import Home from "./pages/Home/Home"
+import TaskDetail from "./pages/TaskDetail/TaskDetail"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 

@@ -24,7 +24,7 @@ export default function TaskCard ({
   return (
     <div className="bg-white p-5 rounded-lg shadow-custom-sm mb-4 transition-colors duration-200">
       <h3 className="font-bold text-lg mb-1 cursor-pointer hover:underline hover:text-primary transition-colors duration-200">
-        <Link to={`/task/${id}`}>{name}</Link>
+        <Link to={`/tasks/${id}`}>{name}</Link>
       </h3>
       {description && <p className="text-sm text-secondary line-clamp-2 mb-5">{description}</p>}
       {team && (
