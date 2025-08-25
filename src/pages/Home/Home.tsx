@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react"
 import { useUserStore } from "@/store/useUserStore"
 import { UiButton, UiLoading } from "@/components/ui/index"
-import TaskAddModal from "@/pages/Home/components/TaskAddModal"
+import TaskModalAddEdit from "@/pages/Home/components/TaskModalAddEdit"
 import TaskColumn from "@/pages/Home/components/TaskColumn"
 import { statusItems } from "@/constants/options"
 import { getTasks, addTask } from "@/api/tasks"
@@ -109,7 +109,7 @@ export default function Home() {
         )}
       </section>
 
-        <TaskAddModal
+        <TaskModalAddEdit
           isOpen={isModalAddOpen}
           isLoading={isLoadingModal}
           onClose={() => setIsModalAddOpen(false)}

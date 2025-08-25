@@ -93,7 +93,7 @@ export default function Login() {
             </div>
             <div className="mt-7">
               <UiButton 
-                className="!text-2xl !font-semibold"
+                className="!w-full !text-2xl !font-semibold !py-3"
                 type="submit" 
                 loading={loading}
               >

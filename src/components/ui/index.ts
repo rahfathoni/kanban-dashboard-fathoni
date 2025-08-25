@@ -6,6 +6,7 @@ import UiModal from './UiModal'
 import UiTextarea from './UiTextArea'
 import UiCheckbox from './UiCheckbox'
 import UiSelect from './UiSelect'
+import UiBreadcrumb from './UiBreadcrumb'
 
 export {
   UiButton,
@@ -16,4 +17,5 @@ export {
   UiTextarea, 
   UiCheckbox,
   UiSelect,
+  UiBreadcrumb,
 }

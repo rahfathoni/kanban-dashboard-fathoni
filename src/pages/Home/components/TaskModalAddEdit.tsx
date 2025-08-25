@@ -3,29 +3,36 @@ import { UiButton, UiModal, UiInput, UiTextarea, UiCheckbox, UiSelect } from "@/
 import type { ITask } from "@/types/task"
 import { teamItems, statusItems } from '@/constants/options'
 
-interface TaskAddModalProps {
+interface TaskModalAddEditProps {
   isOpen: boolean
   isLoading?: boolean
+  initialData?: ITask
   onClose: () => void
   onSubmit?: (data: Omit<ITask, "id" | "createdAt" | "updatedAt">) => void
 }
 
-export default function TaskAddModal({ isOpen, isLoading = false, onClose, onSubmit }: TaskAddModalProps) {
-  const [name, setName] = useState("")
-  const [description, setDescription] = useState("")
-  const [team, setTeam] = useState<string[] | []>([])
-  const [status, setStatus] = useState("TO DO")
+export default function TaskModalAddEdit({ 
+  isOpen, 
+  isLoading = false, 
+  onClose, 
+  onSubmit,
+  initialData
+}: TaskModalAddEditProps) {
+  const [name, setName] = useState(initialData?.name || "")
+  const [description, setDescription] = useState(initialData?.description || "")
+  const [team, setTeam] = useState<string[] | []>(initialData?.team || [])
+  const [status, setStatus] = useState(initialData?.status || "TO DO")
   const [submitted, setSubmitted] = useState(false)
 
   useEffect(() => {
     setSubmitted(false)
     if (isOpen) {
-      setName("")
-      setDescription("")
-      setTeam([])
-      setStatus("TO DO")
+      setName(initialData?.name || "")
+      setDescription(initialData?.description || "")
+      setTeam(initialData?.team || [])
+      setStatus(initialData?.status || "TO DO")
     }
-  }, [isOpen])
+  }, [isOpen, initialData])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -47,7 +54,7 @@ export default function TaskAddModal({ isOpen, isLoading = false, onClose, onSub
       isOpen={isOpen}
       isLoading={isLoading}
       onClose={onClose}
-      title="Add a Task"
+      title={initialData ? "Edit a Task" : "Add a Task"}
     >
       <form className="flex flex-col" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4 p-4">
@@ -106,7 +113,7 @@ export default function TaskAddModal({ isOpen, isLoading = false, onClose, onSub
 
         <div className="flex gap-2 justify-end border-t border-t-gray-soft p-3">
           <UiButton 
-            className="!w-21 py-2.5 px-5 !rounded-lg" 
+            className="!rounded-lg" 
             variant="outlineBlack" 
             disabled={isLoading}
             onClick={onClose}
@@ -114,7 +121,7 @@ export default function TaskAddModal({ isOpen, isLoading = false, onClose, onSub
             Cancel
           </UiButton>
           <UiButton
-            className="!w-21 py-2.5 px-5" 
+            className="!rounded-lg" 
             type="submit" 
             disabled={isLoading}
           >
