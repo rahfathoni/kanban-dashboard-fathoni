@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Navigate, useLocation } from "react-router-dom"
 import { getUsers } from "@/api/users"
+import { fakeDelay } from "@/utils"
 import type { IUser } from "@/types/user"
 import { UiLoading } from "@/components/ui/index"
 
@@ -12,6 +13,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   useEffect(() => {
     const checkUser = async () => {
       const stored = localStorage.getItem("user")
+      await fakeDelay()
       if (!stored) {
         setIsAllowed(false)
         setLoading(false)
