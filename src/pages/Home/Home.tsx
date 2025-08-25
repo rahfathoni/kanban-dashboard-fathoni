@@ -3,8 +3,8 @@
 import { useEffect, useState, useCallback } from "react"
 import { useUserStore } from "@/store/useUserStore"
 import { UiButton, UiLoading } from "@/components/ui/index"
-import TaskAddModal from "@/components/task/TaskAddModal"
-import TaskColumn from "@/components/task/TaskColumn"
+import TaskModalAddEdit from "@/pages/Home/components/TaskModalAddEdit"
+import TaskColumn from "@/pages/Home/components/TaskColumn"
 import { statusItems } from "@/constants/options"
 import { getTasks, addTask } from "@/api/tasks"
 import { fakeDelay, nowDate } from "@/utils/index"
@@ -85,7 +85,7 @@ export default function Home() {
         </UiButton>
       </section>
 
-      <section className="flex gap-8 overflow-x-scroll lg:overflow-x-auto pb-4 min-w-96">
+      <section className="flex gap-4 overflow-x-auto pb-4">
         {isLoading ? (
           <div className="p-8 text-center flex-1">
             <UiLoading text="Loading Task..." />
@@ -93,21 +93,23 @@ export default function Home() {
         ) : error ? (
           <div className="p-8 text-center text-danger flex-1">Error: {error}</div>
         ) : (
-          statusItems.map((status) => {
-            const taskByStatus = tasks.filter((task) => task.status === status.value)
+          <div className="flex gap-4 min-w-120">
+            {statusItems.map((status) => {
+              const taskByStatus = tasks.filter((task) => task.status === status.value);
 
-            return (
-              <TaskColumn
-                key={status.value}
-                title={status.label}
-                tasks={taskByStatus}
-              />
-            )
-          })
+              return (
+                <TaskColumn
+                  key={status.value}
+                  title={status.label}
+                  tasks={taskByStatus}
+                />
+              );
+            })}
+          </div>
         )}
       </section>
 
-        <TaskAddModal
+        <TaskModalAddEdit
           isOpen={isModalAddOpen}
           isLoading={isLoadingModal}
           onClose={() => setIsModalAddOpen(false)}

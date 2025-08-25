@@ -5,7 +5,7 @@ import imgLogin from "@/assets/kanban-login.jpg"
 import { UiButton, UiInput } from "@/components/ui/index"
 import { useUserStore } from "@/store/useUserStore"
 import { useGlobalStore } from "@/store/useGlobalStore"
-import RegisterModal from "@/components/login/RegisterModal"
+import RegisterModal from "@/pages/Login/components/RegisterModal"
 import clsx from "clsx"
 
 export default function Login() {
@@ -93,7 +93,7 @@ export default function Login() {
             </div>
             <div className="mt-7">
               <UiButton 
-                className="!text-2xl !font-semibold"
+                className="!w-full !text-2xl !font-semibold !py-3"
                 type="submit" 
                 loading={loading}
               >

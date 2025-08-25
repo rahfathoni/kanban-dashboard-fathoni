@@ -127,7 +127,7 @@ export default function RegisterModal({ isOpen = false, onClose }: RegisterModal
 
         <div className="flex gap-2 justify-end border-t border-t-gray-soft p-3">
           <UiButton 
-            className="!w-21 py-2.5 px-5 !rounded-lg" 
+            className="!rounded-lg" 
             variant="outlineBlack" 
             disabled={isLoading}
             onClick={onClose}
@@ -135,7 +135,7 @@ export default function RegisterModal({ isOpen = false, onClose }: RegisterModal
             Cancel
           </UiButton>
           <UiButton
-            className="!w-21 py-2.5 px-5" 
+            className="!rounded-lg" 
             type="submit" 
             disabled={isLoading}
           >

@@ -13,7 +13,7 @@ export default function ToastUniversal() {
       const timer = setTimeout(() => {
         setClosing((prev) => ({ ...prev, [t.id]: true }))
         setTimeout(() => removeToast(t.id), 300)
-      }, 3000)
+      }, 5000)
 
       return () => clearTimeout(timer)
     })

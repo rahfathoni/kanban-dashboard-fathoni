@@ -21,7 +21,7 @@ export default function UiButton({
   onClick,
 }: UiButtonProps) {
   const baseStyle = clsx(
-    "py-2 rounded-md font-semibold w-full transition flex items-center justify-center gap-2", 
+    "py-2.5 px-5 rounded-md font-semibold w-fit transition flex items-center justify-center gap-2", 
     "text-sm font-medium",
     {
       "cursor-not-allowed opacity-50": disabled || loading,
@@ -32,7 +32,7 @@ export default function UiButton({
   const variants = {
     primary: "bg-primary hover:bg-blue-600 text-white",
     outlineBlack: "border border-black text-black bg-white hover:bg-gray-100",
-    ghostDanger: "bg-transparent text-red-500 hover:text-red-600"
+    ghostDanger: "bg-transparent text-danger hover:text-red-600"
   }
   
   return (
