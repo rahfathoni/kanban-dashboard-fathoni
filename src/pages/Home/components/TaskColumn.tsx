@@ -1,7 +1,10 @@
-import TaskCard from "./TaskCard";
+import { useDroppable } from "@dnd-kit/core"
+import TaskCard from "./TaskCard"
+import clsx from "clsx"
 
 interface TaskColumnProps {
-  title: string;
+  id: string
+  title: string
   tasks: {
     id: string | number
     name: string
@@ -13,15 +16,24 @@ interface TaskColumnProps {
 }
 
 export default function TaskColumn({ 
+  id, 
   title, 
-  tasks,
+  tasks 
 }: TaskColumnProps) {
+  const { setNodeRef, isOver } = useDroppable({ id })
+
   return (
-    <div className="flex-1 rounded-md flex-shrink-0">
+    <div
+      ref={setNodeRef}
+      className={clsx(
+        "flex-1 rounded-md flex-shrink-0 p-2 transition-colors duration-200",
+        isOver && "bg-gray-soft"
+      )}
+    >
       <h3 className="font-bold text-xs mb-4 text-secondary">{title}</h3>
-      {tasks.map((task, i) => (
-        <TaskCard key={i} {...task} />
+      {tasks.map((task) => (
+        <TaskCard key={task.id} {...task} />
       ))}
     </div>
-  );
+  )
 }

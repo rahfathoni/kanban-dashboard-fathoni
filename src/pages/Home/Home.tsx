@@ -1,12 +1,12 @@
-"use client"
-
-import { useEffect, useState, useCallback } from "react"
+import { DndContext, closestCenter, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core"
+import type { DragEndEvent } from "@dnd-kit/core"
+import { useState, useEffect, useCallback } from "react"
 import { useUserStore } from "@/store/useUserStore"
 import { UiButton, UiLoading } from "@/components/ui/index"
 import TaskModalAddEdit from "@/pages/Home/components/TaskModalAddEdit"
 import TaskColumn from "@/pages/Home/components/TaskColumn"
 import { statusItems } from "@/constants/options"
-import { getTasks, addTask } from "@/api/tasks"
+import { getTasks, addTask, editTaskOnlyStatus } from "@/api/tasks"
 import { fakeDelay, nowDate } from "@/utils/index"
 import { useGlobalStore } from "@/store/useGlobalStore"
 import type { ITask } from "@/types/task"
@@ -69,6 +69,48 @@ export default function Home() {
     setIsModalAddOpen(true)
   }
 
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event
+    if (!over) return
+
+    const taskId = String(active.id)
+    const newStatus = String(over.id)
+
+    const prevTask = tasks.find((item) => item.id === taskId)
+    if (!prevTask) return
+    if (prevTask.status === newStatus) return
+
+    setTasks((prev) =>
+      prev.map((task) =>
+        String(task.id) === taskId ? { ...task, status: newStatus } : task
+      )
+    )
+
+    try {
+      await editTaskOnlyStatus(taskId, newStatus)
+      addToast({ message: "Task status updated!", type: "success" })
+    } catch (err) {
+      console.error("Failed to update task status:", err)
+      addToast({ message: "Failed to update task status", type: "error" })
+      await fetchTasks()
+    }
+  }
+
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 5,
+    },
+  })
+
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 150,
+      tolerance: 5,
+    },
+  })
+
+  const sensors = useSensors(mouseSensor, touchSensor)
+
   return (
     <main className="space-y-8">
       <section className="flex justify-between items-center gap-2">
@@ -85,36 +127,42 @@ export default function Home() {
         </UiButton>
       </section>
 
-      <section className="flex gap-4 overflow-x-auto pb-4">
-        {isLoading ? (
-          <div className="p-8 text-center flex-1">
-            <UiLoading text="Loading Task..." />
-          </div>
-        ) : error ? (
-          <div className="p-8 text-center text-danger flex-1">Error: {error}</div>
-        ) : (
-          <div className="flex gap-4 min-w-120">
-            {statusItems.map((status) => {
-              const taskByStatus = tasks.filter((task) => task.status === status.value);
+      <DndContext 
+        sensors={sensors}
+        collisionDetection={closestCenter} 
+        onDragEnd={handleDragEnd}
+      >
+        <section className="flex gap-4 overflow-x-auto pb-4 max-w-full">
+          {isLoading ? (
+            <div className="p-8 text-center flex-1">
+              <UiLoading text="Loading Task..." />
+            </div>
+          ) : error ? (
+            <div className="p-8 text-center text-danger flex-1">Error: {error}</div>
+          ) : (
+            <div className="flex gap-4 min-w-120">
+              {statusItems.map((status) => {
+                const taskByStatus = tasks.filter((task) => task.status === status.value)
+                return (
+                  <TaskColumn
+                    key={status.value}
+                    id={status.value}
+                    title={status.label}
+                    tasks={taskByStatus}
+                  />
+                )
+              })}
+            </div>
+          )}
+        </section>
+      </DndContext>
 
-              return (
-                <TaskColumn
-                  key={status.value}
-                  title={status.label}
-                  tasks={taskByStatus}
-                />
-              );
-            })}
-          </div>
-        )}
-      </section>
-
-        <TaskModalAddEdit
-          isOpen={isModalAddOpen}
-          isLoading={isLoadingModal}
-          onClose={() => setIsModalAddOpen(false)}
-          onSubmit={input => submitNewTask(input)}
-        />
+      <TaskModalAddEdit
+        isOpen={isModalAddOpen}
+        isLoading={isLoadingModal}
+        onClose={() => setIsModalAddOpen(false)}
+        onSubmit={input => submitNewTask(input)}
+      />
     </main>
   )
 }
