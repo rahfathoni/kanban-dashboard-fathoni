@@ -45,6 +45,16 @@ export const editTaskById = async (id: string | number, task: Omit<ITask, "id" |
   }
 }
 
+export const editTaskOnlyStatus = async (id: string | number, status: string) => {
+  try {
+    const res = await API.put<ITask>(`/tasks/${id}`, { status })
+    return res.data
+  } catch (err) {
+    console.error("Failed to edit task status:", err)
+    throw err
+  }
+}
+
 export const deleteTaskById = async (id: string | number) => {
   try {
     const res = await API.delete<ITask>(`/tasks/${id}`)

@@ -1,3 +1,4 @@
+import { useDraggable } from "@dnd-kit/core"
 import { UiTag } from "@/components/ui/index"
 import { teamItems } from "@/constants/options"
 import { Link } from "react-router-dom";
@@ -15,14 +16,30 @@ export default function TaskCard ({
   id,
   name,
   description = "", 
-  team = [], 
+  team = [],
 }: TaskCardProps) {
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    id: id,
+  })
+
+  const style = transform
+    ? { transform: `translate(${transform.x}px, ${transform.y}px)` }
+    : {}
+
   const getTagData = (tagLabel: string) => {
     return teamItems.find(item => item.label === tagLabel);
   };
 
   return (
-    <div className="bg-white p-5 rounded-lg shadow-custom-sm mb-4 transition-colors duration-200">
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
+      className={`bg-white p-5 rounded-lg shadow-custom-sm mb-4 transition-colors duration-200 cursor-grab ${
+        isDragging ? "opacity-50" : ""
+      }`}
+    >
       <h3 className="font-bold text-lg mb-1 cursor-pointer hover:underline hover:text-primary transition-colors duration-200">
         <Link to={`/dashboard/${id}`}>{name}</Link>
       </h3>
@@ -30,18 +47,18 @@ export default function TaskCard ({
       {team && (
         <div className="flex flex-wrap gap-2">
           {team.map((tag, i) => {
-            const tagData = getTagData(tag);
+            const tagData = getTagData(tag)
             return (
-              <UiTag 
-                key={i} 
+              <UiTag
+                key={i}
                 style={{
-                  backgroundColor: tagData?.bgColor || 'black',
-                  color: tagData?.color || 'white',
+                  backgroundColor: tagData?.bgColor || "black",
+                  color: tagData?.color || "white",
                 }}
               >
                 {tag}
               </UiTag>
-            );
+            )
           })}
         </div>
       )}

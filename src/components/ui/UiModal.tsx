@@ -11,6 +11,7 @@ interface ModalProps {
   isLoading?: boolean
   className?: string
   classNameFooter?: string
+  scrollable?: boolean
 }
 
 export default function Modal({ 
@@ -21,6 +22,7 @@ export default function Modal({
   children, 
   footer,
   isLoading,
+  scrollable = true,
   onClose, 
 }: ModalProps) {
   if (!isOpen) return null
@@ -31,6 +33,7 @@ export default function Modal({
         className={clsx(
           "bg-white rounded-md shadow-lg w-lg max-w-full flex flex-col",
           "lg:max-w-lg",
+          scrollable && "max-h-[90vh]",
           className
         )}
       >
@@ -45,7 +48,14 @@ export default function Modal({
           </button>
         </div>
 
-        <div className="flex-1">{children}</div>
+        <div
+          className={clsx(
+            "flex-1",
+            scrollable && "overflow-y-auto"
+          )}
+        >
+          {children}
+        </div>
 
         {footer && (
           <div className={clsx(
