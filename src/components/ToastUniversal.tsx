@@ -20,7 +20,7 @@ export default function ToastUniversal() {
   }, [toasts, removeToast])
 
   return (
-    <div className="fixed bottom-4 right-6 flex flex-col gap-3 z-50">
+    <div className="fixed bottom-4 right-6 flex flex-col gap-3 z-100">
       {toasts.map((toast) => (
         <div
           key={toast.id}

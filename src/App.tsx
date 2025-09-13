@@ -6,6 +6,7 @@ import Login from "./pages/Login/Login"
 import Home from "./pages/Home/Home"
 import HomeDetail from "./pages/Home/Detail"
 import NotFound from "./pages/NotFound"
+import NotAvailable from "./pages/NotAvailable"
 import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/dashboard/:id" element={<HomeDetail />} />
+                  <Route path="/document" element={<NotAvailable />} />
+                  <Route path="/users" element={<NotAvailable />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </MainLayout>
