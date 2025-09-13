@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { UiButton, UiModal, UiInput } from "@/components/ui/index"
 import { AiOutlineWarning } from "react-icons/ai"
 import { FaEye, FaEyeSlash } from "react-icons/fa"
-import { createUser } from "@/api/users"
+import { useUserStore } from "@/store/useUserStore"
 import { useGlobalStore } from "@/store/useGlobalStore"
 import type { IUser } from "@/types/user"
 
@@ -18,6 +18,7 @@ export default function RegisterModal({ isOpen = false, onClose }: RegisterModal
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const registerUser = useUserStore((s) => s.registerUser)
   const addToast = useGlobalStore((s) => s.addToast)
 
   useEffect(() => {
@@ -42,7 +43,11 @@ export default function RegisterModal({ isOpen = false, onClose }: RegisterModal
       name,
     }
     try {
-      await createUser(newUser)
+      const register = await registerUser(newUser)
+      if (!register) {
+        addToast({ message: "Registration failed. Please try a different username", type: "error" })
+        return
+      }
       addToast({ message: "Registered account success", type: "success" })
       onClose()
     } catch (err) {
