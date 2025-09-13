@@ -3,7 +3,7 @@ import { FaTimes } from "react-icons/fa"
 import { RiLogoutCircleRLine } from "react-icons/ri"
 import clsx from "clsx"
 import { menuItems } from "@/constants/menu"
-import logo from "@/assets/logo.png"
+import logo from "@/assets/note-logo-2.svg"
 import { useGlobalStore } from "@/store/useGlobalStore"
 import { useUserStore } from "@/store/useUserStore"
 
