@@ -4,12 +4,14 @@ import clsx from "clsx"
 interface UiInputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: string
   variant?: "underline" | "solid"
+  maxChar?: number
 }
 
 export default function UiInput({
   className,
   error,
   variant = "underline",
+  maxChar,
   ...props
 }: UiInputProps) {
   const baseStyle = clsx(
@@ -31,12 +33,24 @@ export default function UiInput({
     ),
   }
 
+  const currentLength = props.value?.toString().length || 0
+
   return (
     <div className="w-full">
-      <input
-        className={clsx(baseStyle, variants[variant], className)}
-        {...props}
-      />
+      <div className="relative">
+        <input
+          className={clsx(baseStyle, variants[variant], className, maxChar && "pr-12")}
+          maxLength={maxChar}
+          {...props}
+        />
+
+        {maxChar && props.value && (
+          <span className="absolute right-2 bottom-1 text-xs text-gray-400">
+            {currentLength}/{maxChar}
+          </span>
+        )}
+      </div>
+
       {showErrorText && <p className="text-danger text-sm mt-1">{error}</p>}
     </div>
   )

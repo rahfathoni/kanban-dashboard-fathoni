@@ -69,6 +69,7 @@ export default function TaskModalAddEdit({
               variant="solid"
               disabled={isLoading}
               value={name}
+              maxChar={250}
               error={submitted && !name ? "" : undefined}
               onChange={(e) => setName(e.target.value)}
             />

@@ -2,6 +2,7 @@ import type { ITask } from "@/types/task"
 import UiTag from "@/components/ui/UiTag"
 import { teamItems } from "@/constants/options"
 import { formatIsoToDate } from "@/utils/index"
+import clsx from "clsx"
 
 interface TaskDetailProps {
   task: ITask
@@ -22,7 +23,11 @@ export default function TaskDetail({
         <div className="flex flex-col lg:flex-row w-full gap-5 lg:gap-7 lg:flex-1 mb-5">
 
           <div className="flex-1">
-            <p className="leading-relaxed">{task.description || "No Description"}</p>
+            <p
+              className={clsx("leading-relaxed", task.description ? null : "text-gray-400 italic")}
+            >
+              {task.description || "- No description -"}
+            </p>
           </div>
 
           <div className="lg:w-1/3 lg:mt-0">
