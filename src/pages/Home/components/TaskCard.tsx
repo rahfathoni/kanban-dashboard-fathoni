@@ -1,7 +1,8 @@
 import { useDraggable } from "@dnd-kit/core"
 import { UiTag } from "@/components/ui/index"
 import { teamItems } from "@/constants/options"
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
+import clsx from "clsx"
 
 interface TaskCardProps {
   id: string | number
@@ -40,10 +41,17 @@ export default function TaskCard ({
         isDragging ? "opacity-50" : ""
       }`}
     >
-      <h3 className="font-bold text-lg mb-1 cursor-pointer hover:underline hover:text-primary transition-colors duration-200">
+      <h3 className="font-bold text-lg mb-1 cursor-pointer hover:underline hover:text-primary transition-colors duration-200 line-clamp-4">
         <Link to={`/dashboard/${id}`}>{name}</Link>
       </h3>
-      {description && <p className="text-sm text-secondary line-clamp-2 mb-5">{description}</p>}
+      <p
+        className={clsx(
+          "text-sm line-clamp-2 mb-5",
+          description ? "text-secondary" : "text-gray-400 italic"
+        )}
+      >
+        {description || "- No description -"}
+      </p>
       {team && (
         <div className="flex flex-wrap gap-2">
           {team.map((tag, i) => {
