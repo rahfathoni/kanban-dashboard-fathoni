@@ -26,6 +26,7 @@ function App() {
                   <Route path="/dashboard/:id" element={<HomeDetail />} />
                   <Route path="/document" element={<NotAvailable />} />
                   <Route path="/users" element={<NotAvailable />} />
+                  <Route path="/accountsettings" element={<NotAvailable />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </MainLayout>
